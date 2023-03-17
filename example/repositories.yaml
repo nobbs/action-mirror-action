@@ -1,0 +1,3 @@
+repositories:
+  - source: actions/setup-node
+    target: nobbs/setup-node

@@ -23,7 +23,7 @@ tasks:
   test:
     desc: Run tests
     cmds:
-      - yarn test
+      - yarn test {{.CLI_ARGS}}
     sources:
       - "src/**/*"
 
