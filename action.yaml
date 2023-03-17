@@ -1,0 +1,27 @@
+name: Action Mirroring Action
+description: |
+  Easily mirror actions from GitHub.com or other Git repositories to your own
+  GitHub enterprise instance.
+author: Alexej Disterhoft <github@disterhoft.de>
+inputs:
+  token:
+    description: |
+      The GitHub token to use for the mirroring. Has to be a PAT with repo or
+      admin:org scope depending on the target repository. Can also be a GitHub
+      App based token with organization "administration" permissions.
+    required: true
+  config-file:
+    description: |
+      The path to the configuration file containing the list of actions to
+      mirror. Defaults to `.github/mirror-actions.yaml`.
+    required: true
+    default: .github/mirror-actions.yaml
+  github-com-token:
+    description: |
+      The GitHub token to use for the mirroring. Has to be a PAT with any scope,
+      as it is only used to bypass the rate limiting. Optional, but recommended.
+    required: false
+
+runs:
+  using: "node16"
+  main: "dist/index.js"

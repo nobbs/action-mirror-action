@@ -1,0 +1,77 @@
+version: "3"
+
+tasks:
+  install:
+    desc: Install dependencies
+    cmds:
+      - yarn install
+    sources:
+      - package.json
+    generates:
+      - yarn.lock
+      - "node_modules/**/*"
+
+  build:
+    desc: Build the project
+    cmds:
+      - yarn build
+    sources:
+      - "src/**/*"
+    generates:
+      - "lib/**/*"
+
+  test:
+    desc: Run tests
+    cmds:
+      - yarn test
+    sources:
+      - "src/**/*"
+
+  lint:
+    desc: Lint the project
+    cmds:
+      - yarn lint
+    sources:
+      - "src/**/*"
+
+  format-check:
+    desc: Check if the project is formatted
+    cmds:
+      - yarn format-check
+
+  format:
+    desc: Format the project
+    cmds:
+      - yarn format
+
+  package:
+    desc: Package the project
+    cmds:
+      - task: lint
+      - task: format
+      - task: test
+      - yarn package
+    sources:
+      - "src/**/*"
+    generates:
+      - "dist/**/*"
+
+  local-run:
+    desc: Run the project locally (requires .env file, set ENV_FILE to the path of the file)
+    dotenv:
+      - "{{ .ENV_FILE }}"
+    cmds:
+      - task: build
+      - node lib/main.js
+
+  depcheck:
+    desc: Check for unused dependencies
+    cmds:
+      - npx depcheck
+
+  default:
+    desc: Run all the tasks
+    cmds:
+      - task: install
+      - task: build
+      - task: package
